@@ -1,0 +1,99 @@
+<!-- Header End -->
+<header id="top-header-menu" class="">
+    <nav class="inner">
+        <a href="/" class="logo_container">
+            <custom-svg src="./images/logo.svg" width="150" height="60" alt="" class="logo"></custom-svg>
+        </a>
+        <div id="header_menu" class="header_menu">
+            <ul class="menu_items">
+                <li id="header_menu_item" class="menu_item">
+                    <a>Solutions <i class="bi bi-caret-down-fill"></i></a>
+                    <div class="sub_menu_container">
+                        <ul class="sub_menu">
+                            <a href="#" class="sub_menu_item">Grant Writing</a>
+                            <a href="#" class="sub_menu_item">Web Development</a>
+                            <a href="#" class="sub_menu_item">E Learning Service</a>
+                        </ul>
+                    </div>
+                </li>
+                <li id="header_menu_item" class="menu_item">
+                    <a>Our Impact <i class="bi bi-caret-down-fill"></i></a>
+                    <div class="sub_menu_container">
+                        <ul class="sub_menu">
+                            <a href="#" class="sub_menu_item">Mental Health</a>
+                            <a href="#" class="sub_menu_item">Respect in the workplace</a>
+                            <a href="#" class="sub_menu_item">Youth Engagement</a>
+                        </ul>
+                    </div>
+                </li>
+                <li id="header_menu_item" class="menu_item">
+                    <a href="#">About us</a>
+                </li>
+                <li id="header_menu_item" class="menu_item">
+                    <a href="#">Articles</a>
+                </li>
+                <li id="header_menu_item" class="menu_item">
+                    <a href="#">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_btns">
+            <a href="#" class="btn filled">Book a call</a>
+            <a id="header_menu_toggle_btn" class="menu_btn">
+                <i class="bi menu_icon bi-list"></i>
+                <i class="bi close_icon bi-x-lg"></i>
+            </a>
+        </div>
+    </nav>
+</header>
+<script>
+    // Custom HTML Component to load svg
+    class CustomSVG extends HTMLElement {
+        constructor() {
+            super();
+        }
+        connectedCallback() {
+            fetch(this.getAttribute('src'))
+                .then(response => response.text())
+                .then(text => {
+                    var _text = text;
+                    _text = _text.replace("[width]", this.getAttribute("width"));
+                    _text = _text.replace("[height]", this.getAttribute("height"));
+                    this.innerHTML = _text;
+                });
+        }
+    }
+    customElements.define('custom-svg', CustomSVG);
+
+    //Header Script
+    const topHeader = document.getElementById("top-header-menu");
+    const headerToggleBtn = topHeader.querySelector("#header_menu_toggle_btn");
+    const menuItems = topHeader.querySelectorAll("#header_menu_item");
+    for (let i = 0; i < menuItems.length; i++) {
+        const menuItemDropI = menuItems[i].querySelector("i");
+        if (menuItemDropI != null) {
+            menuItemDropI.addEventListener("click", (e) => {
+                menuItems[i].classList.toggle("active");
+                for (let j = 0; j < menuItems.length; j++) {
+                    if (i != j) {
+                        menuItems[j].classList.remove("active");
+                    }
+                }
+            })
+        }
+
+    }
+    headerToggleBtn.addEventListener("click", () => {
+        topHeader.classList.toggle("menu_active");
+    })
+    window.addEventListener("scroll", () => {
+        if (window.scrollY >= 200) {
+            if (!topHeader.classList.contains("sticky")) {
+                topHeader.classList.add("sticky")
+            }
+        } else if (topHeader.classList.contains("sticky")) {
+            topHeader.classList.remove("sticky")
+        }
+    })
+</script>
+<!-- Header End -->
